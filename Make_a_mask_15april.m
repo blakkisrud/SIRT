@@ -6,7 +6,6 @@ close all
 
 % Where is the PET ; TODO interactive
 %% Run now for PET images
-% path= 'C:\Users\Maria\Documents\SIRT_2021\Data_fra_Database_SIRINO_14_04_2021\YM68_PET\20190710';
 % [PETimref, PET_IM, PET_Info] = bildlesing_earl_func(path);
 
 PETdim=[256, 256, 71];

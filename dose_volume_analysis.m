@@ -14,7 +14,9 @@ Y_90_energy_constant = 1.4958e-13 ; % in J per desintegration, calculate
 
 % Load the PET-data
 
-[pet_ref, pet_matrix, pet_info] = read_dicom_dir("data\SIRT_2021\Data_fra_Database_SIRINO_14_04_2021\YM68_PET\20190710");
+path_to_pet_data = ""
+
+[pet_ref, pet_matrix, pet_info] = read_dicom_dir(path_to_pet_data);
 
 % Load the mask and pet-matrix
 

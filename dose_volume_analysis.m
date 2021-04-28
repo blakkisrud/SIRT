@@ -16,10 +16,10 @@ Y_90_energy_constant = 1.4958e-13 ; % in J per desintegration, calculate
 
 [pet_ref, pet_matrix, pet_info] = read_dicom_dir("data\SIRT_2021\Data_fra_Database_SIRINO_14_04_2021\YM68_PET\20190710");
 
-% Load the mask
+% Load the mask and pet-matrix
 
 load('data\struct_results.mat')
-liver_struct = struct_results.lever_frisk;
+liver_struct = struct_results.ttumor_auto;
 liver_mask = liver_struct.mask;
 
 % Have to have correct units - start with mask being in kBq/ml?
@@ -54,7 +54,9 @@ disp(sum(pet_matrix_Bq_time_zero(:))/1e6)
 disp('Maximum absorbed dose in voxel (Gy)')
 disp(max(pet_matrix_absorbed_dose(:)))
 
-% 
+% Check the absorbed dose in the tumour
+
+mean(pet_matrix_absorbed_dose(liver_mask==2))
 
 % Lets have a look at the mask and pet-image
 
@@ -63,4 +65,20 @@ mask_img = liver_mask(:,:,50);
 
 imshowpair(pet_img, mask_img)
 
+% Now if we assume everything works - we should be able to plot historgrams
+% of the distributions
+%%
+target_voxels = pet_matrix_absorbed_dose(liver_mask==2);
+max_dose = max(target_voxels);
+D_vec = 1:max_dose;
+fractions = zeros(length(D_vec),1);
+num_target_voxels = length(target_voxels);
+
+for i = 1:length(D_vec)
+    less_than_i = target_voxels>D_vec(i);
+    fractions(i) = sum(less_than_i)./num_target_voxels;
+    
+end
+
+plot(D_vec, fractions)
 
